@@ -20,7 +20,7 @@ import './App.css';
 // Modules
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue, push, remove } from 'firebase/database';
+import { getDatabase, ref, onValue, push, remove, get } from 'firebase/database';
 // Config
 import app from './firebase';
 // Components
@@ -42,7 +42,16 @@ function App() {
     // refer to the database
     const dbRef = ref(database);
 
-    //showNumOfFavorites();
+    onValue(dbRef, (response) => {
+        const faveArray = [];
+        const data = response.val();
+        
+        for(let key in data) {
+          faveArray.push(data[key])
+        }
+        setFaveFacts(faveArray);
+      })
+    //showNumOfFavorites(savedFaves); // won't update with [] at end
   }, [])
 
   useEffect(() => {
@@ -69,22 +78,29 @@ function App() {
     const dbRef = ref(database);
 
     push(dbRef, currentFact);
-
-    onValue(dbRef, (response) => {
-      const faveArray = [];
-      const data = response.val();
-      
-      for(let key in data) {
-        faveArray.push(data[key])
-      }
-      setFaveFacts(faveArray);
-    })
   }
 
+  const showAllFaves = () => {
+    const database = getDatabase(app);
+    const dbRef = ref(database);
+
+    get(dbRef).then((snapshot) => {
+      const allFaves = snapshot.val();
+      console.log('allFaves', allFaves)
+      // const allFavesStrings = 
+    })
+  }
+  // the above gives me the object with keys and fact strings. I need these to render to the page, probably via FunFact. I believe it will be a ternary - but what is the thing to check first???
+
+  // nextStepFunction would pull out just the strings and create a new array to pass through FunFact...but how to do that????
+
+  // actually, I think creating the new array in showAllFaves makes way more sense, but can it be done?? 
+
+  // allFaves is an object...need to recall how we played with that before. Esther taught us and we changed an Object to an array to then use map, reduce, etc on
 
   return (
     <div className='App'>
-      <Header />
+      <Header showTheFaves={showAllFaves}/>
       <Intro nowClicked={nowClicked}/>
       <FunFact theFact={fact} loveIt={makeItFave}/>
       <Footer />
