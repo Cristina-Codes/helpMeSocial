@@ -65,8 +65,20 @@ function App() {
   }
 
   const makeItFave = (currentFact) => {
-    setFaveFacts(currentFact);
-    console.log(currentFact);
+    const database = getDatabase(app);
+    const dbRef = ref(database);
+
+    push(dbRef, currentFact);
+
+    onValue(dbRef, (response) => {
+      const faveArray = [];
+      const data = response.val();
+      
+      for(let key in data) {
+        faveArray.push(data[key])
+      }
+      setFaveFacts(faveArray);
+    })
   }
 
 
@@ -75,7 +87,6 @@ function App() {
       <Header />
       <Intro nowClicked={nowClicked}/>
       <FunFact theFact={fact} loveIt={makeItFave}/>
-      <h3>{faveFacts}</h3>
       <Footer />
     </div>
   );
