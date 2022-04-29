@@ -86,8 +86,10 @@ function App() {
 
     get(dbRef).then((snapshot) => {
       const allFaves = snapshot.val();
-      console.log('allFaves', allFaves)
-      // const allFavesStrings = 
+      const allFavesStrings = [];
+      for(let key in allFaves){
+        allFavesStrings.push(allFaves[key]);
+      }
     })
   }
   // the above gives me the object with keys and fact strings. I need these to render to the page, probably via FunFact. I believe it will be a ternary - but what is the thing to check first???
