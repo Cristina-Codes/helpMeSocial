@@ -17,11 +17,10 @@
 
 // Styling
 import './App.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 // Modules
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import { useState, useEffect, Fragment } from 'react';
 import { getDatabase, ref, onValue, push, remove, get } from 'firebase/database';
 // Config
 import app from './firebase';
@@ -37,6 +36,7 @@ function App() {
   const [ clicked, setClicked ] = useState(false);
   const [ fact, setFact ] = useState('');
   const [ faveFacts, setFaveFacts ] = useState([]);
+
 
 // Connecting with firebase onload
   useEffect(() => {
@@ -93,14 +93,15 @@ function App() {
       const allFaves = snapshot.val();
       const allFavesStrings = [];
       for(let key in allFaves){
-        allFavesStrings.push(allFaves[key]);
+        allFavesStrings.push({key: key, name: allFaves[key]});
       }
-      
+
       displayTheFaves(allFavesStrings);
     })
   }
 
 // Displaying the favorites pulled from Firebase
+// Could change this to routing 
   const displayTheFaves = (array) => {
     const faveDisplay = document.createElement('div');
     const mainDiv = document.querySelector('#root');
@@ -110,13 +111,29 @@ function App() {
     closeIt.classList.add('xIconContainer');
     faveDisplay.appendChild(closeIt);
     
-    array.forEach((string) => {
+    array.forEach((obj) => {
+      const stringDiv = document.createElement('div');
       const aString = document.createElement('p');
-      aString.classList.add('favePara');
-      aString.innerText = string;
-      faveDisplay.appendChild(aString);
+      const trashIt = document.createElement('div');
+
+      aString.innerText = `${obj.name}`;
+      trashIt.innerHTML = '🗑';
+      trashIt.classList.add('trashIcon');
+      trashIt.addEventListener('click', () => {
+        const database = getDatabase(app);
+        const dbRef = ref(database, `/${obj.key}`);
+        remove(dbRef);
+        // need to update the display here
+        // could remove/cross out the faveDiv
+        // or rerender the list perhaps
+      })
+      
+      stringDiv.classList.add('faveDiv');
+      stringDiv.appendChild(aString);
+      stringDiv.appendChild(trashIt);
+
+      faveDisplay.appendChild(stringDiv);
     })
-    
     
     faveDisplay.classList.add('faveDisplay');
     mainDiv.appendChild(faveDisplay);

@@ -37,15 +37,17 @@ h1, p {
   right: 0;
 }
 
-.favePara {
+.faveDiv {
   background: tan;
   text-align: center;
   width: 80%;
   padding: 20px;
+  padding-bottom: 40px;
   margin: 10px;
   border-radius: 20px;
   border: 2px solid black;
   font-size: 2rem;
+  position: relative;
 }
 
 .xIconContainer {
@@ -54,4 +56,14 @@ h1, p {
   justify-content: flex-end;
   padding: 20px;
   font-size: 3.5rem;
+}
+
+.trashIcon {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+}
+
+.hide {
+  display: none;
 }
