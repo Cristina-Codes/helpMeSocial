@@ -19,7 +19,6 @@
 import './App.css';
 // Modules
 import axios from 'axios';
-import ReactDOM from 'react-dom/client';
 import { useState, useEffect, Fragment } from 'react';
 import { getDatabase, ref, onValue, push, remove, get } from 'firebase/database';
 // Config

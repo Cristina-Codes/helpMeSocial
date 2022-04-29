@@ -12,25 +12,24 @@ html {
   font-size: 62.5%; /* 10px */
 }
 
+html, body, #root, .App {
+  height: 100%;
+}
+
 h1, p {
   padding: 0;
   margin: 0;
 }
 
 body {
-  height: 100vh;
   background: #F4D35E;
 }
 
-#root {
-  height: 100%;
-}
 
 .App {
   text-align: center;
   position: relative;
   height: 100%;
-  max-height: 600px;
 }
 
 /* Header */
@@ -50,14 +49,21 @@ header {
 header svg {
   color: #EE964B;
   font-size: 3rem;
+  transition: all 0.2s ease;
 }
 
 .intro {
-  padding: 10px 20px;
+  padding: 20px;
 }
 
 .intro p {
+  font-size: 2rem;
   font-weight: bold;
+  padding-bottom: 15px;
+}
+
+.intro span {
+  font-style: italic;
 }
 
 .intro button {
@@ -66,6 +72,14 @@ header svg {
   border-radius: 5px;
   margin: 10px 0;
   padding: 10px 25px;
+  transition: all 0.2s ease;
+}
+
+.intro button:hover,
+.intro button:focus,
+header svg:hover,
+header svg:focus {
+  transform: scale(1.1);
 }
 
 /* Main */
@@ -75,6 +89,7 @@ main {
 }
 
 .factContainer {
+  /* display: none; */
   background: #FAF0CA;
   max-width: 70%;
   font-size: 1.7rem;
@@ -107,11 +122,17 @@ main {
   color: #EE964B;
   position: absolute;
   right: 20px;
+  transition: all 0.2s ease;
+}
+
+.factContainer svg:hover,
+.factContainer svg:focus {
+  transform: scale(1.2);
 }
 
 /* Favorite List Display */
 .faveDisplay {
-  background: orange;
+  background: #EE964B;
   min-height: 100vh;
   width: 100%;
   z-index: 10;
@@ -126,7 +147,7 @@ main {
 }
 
 .faveDiv {
-  background: tan;
+  background: #F4D35E;
   text-align: center;
   width: 80%;
   padding: 20px;
@@ -157,6 +178,7 @@ main {
 footer {
   background: #0D3B66;
   color: #FAF0CA;
+  font-size: 1.4rem;
   padding: 5px 0;
   position: absolute;
   bottom: 0;
@@ -175,6 +197,46 @@ footer a:focus {
   color: #F4D35E;
 }
 
+@media (min-width: 460px) {
+  .intro p {
+    font-size: 3rem;
+  }
+
+  .factContainer {
+    max-width: 50%;
+  }
+}
 
 
-/* Media Queries */
+@media (min-width: 800px) {
+  .intro {
+    padding: 20px 100px;
+  }
+
+  .intro button {
+    font-size: 2rem;
+  }
+
+  .factContainer {
+    max-width: 40%;
+  }
+
+  .factContainer p {
+    font-size: 3rem;
+  }
+
+  footer {
+    font-size: 2rem;
+  }
+}
+
+
+@media (min-width: 1000px) {
+  .titleContainer {
+    padding: 10px 30px;
+  }
+
+  .intro {
+    padding: 20px 300px;
+  }
+}
