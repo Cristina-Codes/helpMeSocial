@@ -17,6 +17,8 @@
 
 // Styling
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 // Modules
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -31,11 +33,12 @@ import Footer from './Components/Footer';
 
 
 function App() {
-  // set States
+// set States
   const [ clicked, setClicked ] = useState(false);
   const [ fact, setFact ] = useState('');
   const [ faveFacts, setFaveFacts ] = useState([]);
 
+// Connecting with firebase onload
   useEffect(() => {
     // hold the database
     const database = getDatabase(app);
@@ -54,6 +57,7 @@ function App() {
     //showNumOfFavorites(savedFaves); // won't update with [] at end
   }, [])
 
+// Making the API call when 'Bring on the Facts!' is clicked
   useEffect(() => {
     if(clicked === true) {
       axios({
@@ -68,11 +72,11 @@ function App() {
     setClicked(false);
   }, [clicked]);
 
+// Fact can be made a favorite/pushed to Firebase when unfilled heart icon clicked
   const nowClicked = (e) => {
     e.preventDefault();
     setClicked(true)
   }
-
   const makeItFave = (currentFact) => {
     const database = getDatabase(app);
     const dbRef = ref(database);
@@ -80,7 +84,8 @@ function App() {
     push(dbRef, currentFact);
   }
 
-  const showAllFaves = () => {
+// Pulling most updated favorites from Firebase when heart icon in header clicked
+  const grabAllFaves = () => {
     const database = getDatabase(app);
     const dbRef = ref(database);
 
@@ -90,20 +95,39 @@ function App() {
       for(let key in allFaves){
         allFavesStrings.push(allFaves[key]);
       }
+      
+      displayTheFaves(allFavesStrings);
     })
   }
-  // the above gives me the object with keys and fact strings. I need these to render to the page, probably via FunFact. I believe it will be a ternary - but what is the thing to check first???
 
-  // nextStepFunction would pull out just the strings and create a new array to pass through FunFact...but how to do that????
-
-  // actually, I think creating the new array in showAllFaves makes way more sense, but can it be done?? 
-
-  // allFaves is an object...need to recall how we played with that before. Esther taught us and we changed an Object to an array to then use map, reduce, etc on
+// Displaying the favorites pulled from Firebase
+  const displayTheFaves = (array) => {
+    const faveDisplay = document.createElement('div');
+    const mainDiv = document.querySelector('#root');
+  //add x or closing icon
+    const closeIt = document.createElement('div');
+    closeIt.innerText = 'X';
+    closeIt.classList.add('xIconContainer');
+    faveDisplay.appendChild(closeIt);
+    
+    array.forEach((string) => {
+      const aString = document.createElement('p');
+      aString.classList.add('favePara');
+      aString.innerText = string;
+      faveDisplay.appendChild(aString);
+    })
+    
+    
+    faveDisplay.classList.add('faveDisplay');
+    mainDiv.appendChild(faveDisplay);
+  }
 
   return (
     <div className='App'>
-      <Header showTheFaves={showAllFaves}/>
-      <Intro nowClicked={nowClicked}/>
+      <header>
+        <Header grabTheFaves={grabAllFaves}/>
+        <Intro nowClicked={nowClicked}/>
+      </header>
       <FunFact theFact={fact} loveIt={makeItFave}/>
       <Footer />
     </div>
