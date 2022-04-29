@@ -17,11 +17,99 @@ h1, p {
   margin: 0;
 }
 
+body {
+  height: 100vh;
+  background: #F4D35E;
+}
+
+#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
   position: relative;
+  height: 100%;
+  max-height: 600px;
 }
 
+/* Header */
+header {
+  background: #0D3B66;
+  color: #FAF0CA;
+  font-size: 1.6rem;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 1.5rem;
+}
+
+header svg {
+  color: #EE964B;
+  font-size: 3rem;
+}
+
+.intro {
+  padding: 10px 20px;
+}
+
+.intro p {
+  font-weight: bold;
+}
+
+.intro button {
+  background: #EE964B;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px 25px;
+}
+
+/* Main */
+main {
+  color: #0D3B66;
+  padding: 20px 0;
+}
+
+.factContainer {
+  background: #FAF0CA;
+  max-width: 70%;
+  font-size: 1.7rem;
+  padding: 10px;
+  padding-bottom: 30px;
+  margin: 0 auto;
+  border-radius: 15px;
+  position: relative;
+}
+
+.factContainer::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #FAF0CA;
+  clear: both;
+}
+
+.factContainer p {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.factContainer svg {
+  color: #EE964B;
+  position: absolute;
+  right: 20px;
+}
+
+/* Favorite List Display */
 .faveDisplay {
   background: orange;
   min-height: 100vh;
@@ -64,6 +152,29 @@ h1, p {
   bottom: 10px;
 }
 
-.hide {
-  display: none;
+
+/* Footer */
+footer {
+  background: #0D3B66;
+  color: #FAF0CA;
+  padding: 5px 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
+
+footer a {
+  color: #FAF0CA;
+  text-decoration: none;
+}
+
+footer a:hover,
+footer a:focus {
+  text-decoration: underline;
+  color: #F4D35E;
+}
+
+
+
+/* Media Queries */
