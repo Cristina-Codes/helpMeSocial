@@ -113,6 +113,9 @@ function App() {
     const closeIt = document.createElement('div');
     closeIt.innerText = 'X';
     closeIt.classList.add('xIconContainer');
+    closeIt.addEventListener('click', () => {
+      faveDisplay.remove();
+    })
     faveDisplay.appendChild(closeIt);
     
     array.forEach((obj) => {
@@ -129,6 +132,7 @@ function App() {
         const database = getDatabase(app);
         const dbRef = ref(database, `/${obj.key}`);
         remove(dbRef);
+        faveDisplay.remove();
         // re-render the list of faves
         grabAllFaves();
       })
@@ -142,15 +146,6 @@ function App() {
     // display the list of favorite facts
     faveDisplay.classList.add('faveDisplay');
     theRoot.appendChild(faveDisplay);
-    closeTheFaves();
-  }
-
-  // add closing event
-  const closeTheFaves = () => {
-    const theX = document.querySelector('.xIconContainer');
-    theX.addEventListener('click', () => {
-      console.log('it\'s making a brand new faveDisplay on second click - leaving one hidden and the new without an event listener. I cannot use z-index based on earlier styling to fill vh as desired.');
-    })
   }
 
   return (
