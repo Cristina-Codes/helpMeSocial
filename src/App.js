@@ -1,6 +1,6 @@
 // Create state items 
 // - response value ''
-                                        // - favorite or not []
+// - favorite or not []
 
 // Once the request type is submitted
                                         // Show error nothing returns/api down
@@ -10,16 +10,19 @@
 // Render the results
   // random fact div appears 
   // heart icon appears
-                                        // if heart icon tapped
-                                          // fact value added to firebase
-                                        // if tapped again
-                                          // fact value removed from firebase
+    // if heart icon tapped
+      // fact value added to firebase
+    // if tapped again
+      // fact value removed from firebase
+                                              // display updates with deletion
+
+                                              // X icon closes the favorites list display
 
 // Styling
 import './App.css';
 // Modules
 import axios from 'axios';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { getDatabase, ref, onValue, push, remove, get } from 'firebase/database';
 // Config
 import app from './firebase';
@@ -100,11 +103,11 @@ function App() {
   }
 
 // Displaying the favorites pulled from Firebase
-// Could change this to routing 
+// Could change this to routing in future
   const displayTheFaves = (array) => {
     const faveDisplay = document.createElement('div');
-    const mainDiv = document.querySelector('#root');
-  //add x or closing icon
+    const theRoot = document.querySelector('#root');
+  //add x to close favorites list
     const closeIt = document.createElement('div');
     closeIt.innerText = 'X';
     closeIt.classList.add('xIconContainer');
@@ -116,26 +119,36 @@ function App() {
       const trashIt = document.createElement('div');
 
       aString.innerText = `${obj.name}`;
-      trashIt.innerHTML = '🗑';
+      trashIt.innerHTML = '🗑'; // fontAwesome appears as object object - revisit
       trashIt.classList.add('trashIcon');
+
+      // allow facts to be deleted from favorites/firebase
       trashIt.addEventListener('click', () => {
         const database = getDatabase(app);
         const dbRef = ref(database, `/${obj.key}`);
         remove(dbRef);
-        // need to update the display here
-        // could remove/cross out the faveDiv
-        // or rerender the list perhaps
+        // re-render the list of faves
+        grabAllFaves();
       })
       
       stringDiv.classList.add('faveDiv');
       stringDiv.appendChild(aString);
       stringDiv.appendChild(trashIt);
-
       faveDisplay.appendChild(stringDiv);
     })
     
+    // display the list of favorite facts
     faveDisplay.classList.add('faveDisplay');
-    mainDiv.appendChild(faveDisplay);
+    theRoot.appendChild(faveDisplay);
+    closeTheFaves();
+  }
+
+  // add closing event
+  const closeTheFaves = () => {
+    const theX = document.querySelector('.xIconContainer');
+    theX.addEventListener('click', () => {
+      console.log('it\'s making a brand new faveDisplay on second click - leaving one hidden and the new without an event listener. I cannot use z-index based on earlier styling to fill vh as desired.');
+    })
   }
 
   return (
