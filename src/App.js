@@ -36,6 +36,7 @@ import Footer from './Components/Footer';
 function App() {
 // set States
   const [ clicked, setClicked ] = useState(false);
+  const [ displayBubble, setDisplayBubble ] = useState(false);
   const [ fact, setFact ] = useState('');
   const [ faveFacts, setFaveFacts ] = useState([]);
 
@@ -77,7 +78,8 @@ function App() {
 // Fact can be made a favorite/pushed to Firebase when unfilled heart icon clicked
   const nowClicked = (e) => {
     e.preventDefault();
-    setClicked(true)
+    setClicked(true);
+    setDisplayBubble(true);
   }
   const makeItFave = (currentFact) => {
     const database = getDatabase(app);
@@ -157,7 +159,9 @@ function App() {
         <Header grabTheFaves={grabAllFaves}/>
         <Intro nowClicked={nowClicked}/>
       </header>
-      <FunFact theFact={fact} loveIt={makeItFave}/>
+      {
+        displayBubble ? <FunFact theFact={fact} loveIt={makeItFave}/> : null
+      }
       <Footer />
     </div>
   );
