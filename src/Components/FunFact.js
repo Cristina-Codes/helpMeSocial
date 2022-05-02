@@ -1,11 +1,15 @@
 import app from '../firebase';
 import { getDatabase, ref, onValue, remove } from 'firebase/database';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const FunFact = ({ theFact, loveIt }) => {
   const [ favorite, setFavorite ] = useState(false);
+  
+  useEffect(() => {
+    setFavorite(false)
+  }, [theFact])
 
   return (
     <main>
@@ -42,4 +46,4 @@ const FunFact = ({ theFact, loveIt }) => {
   )
 }
 
-export default FunFact
+export default FunFact;
