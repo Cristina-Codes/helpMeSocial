@@ -1,5 +1,5 @@
-import { getDatabase, ref, onValue, remove } from 'firebase/database';
 import app from '../firebase';
+import { getDatabase, ref, onValue, remove } from 'firebase/database';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashCan } from '@fortawesome/free-regular-svg-icons';

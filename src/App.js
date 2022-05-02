@@ -14,9 +14,8 @@
       // fact value added to firebase
     // if tapped again
       // fact value removed from firebase
-                                              // display updates with deletion
-
-                                              // X icon closes the favorites list display
+        // display updates with deletion
+  // X icon closes the favorites list display
 
 // Styling
 import './App.css';
@@ -38,7 +37,7 @@ function App() {
   const [ clicked, setClicked ] = useState(false);
   const [ displayBubble, setDisplayBubble ] = useState(false);
   const [ fact, setFact ] = useState('');
-  const [ faveFacts, setFaveFacts ] = useState([]);
+  const [ numOfFave, setNumOfFave ] = useState();
 
 
 // Connecting with firebase onload
@@ -49,15 +48,13 @@ function App() {
     const dbRef = ref(database);
 
     onValue(dbRef, (response) => {
-        const faveArray = [];
+        let faveCount = 0;
         const data = response.val();
-        
         for(let key in data) {
-          faveArray.push(data[key])
+          faveCount++;
         }
-        setFaveFacts(faveArray);
+        setNumOfFave(faveCount);
       })
-    //showNumOfFavorites(savedFaves); // won't update with [] at end
   }, [])
 
 // Making the API call when 'Bring on the Facts!' is clicked
@@ -65,7 +62,6 @@ function App() {
     if(clicked === true) {
       axios({
         url: 'https://api.aakhilv.me/fun/facts',
-        method: 'GET',
         dataResponse: 'json'
       }).then(response => {
         const funFact = response.data[0];
@@ -153,11 +149,11 @@ function App() {
   return (
     <div className='App'>
       <header>
-        <Header grabTheFaves={grabAllFaves}/>
+        <Header grabTheFaves={grabAllFaves} showNumOfFave={numOfFave}/>
         <Intro nowClicked={nowClicked}/>
       </header>
       {
-        displayBubble ? <FunFact theFact={fact} loveIt={makeItFave}/> : null
+        displayBubble ? <FunFact theFact={fact} loveIt={makeItFave} /> : null
       }
       <Footer />
     </div>
@@ -165,32 +161,3 @@ function App() {
 }
 
 export default App;
-
-// with stretch goals included
-// Create state items 
-// - user request type (would you rather/random fact) ''
-// - response value ''
-// - favorite or not []
-
-// on page load
-  // render header
-    // introduction: Forgotten how to social? Make it more awkward by dropping random facts and 'would you rathers' into the convo
-    // 'make your choice' dropdown: WYR or random fact
-    // submit button
-    // heart icon for favorites
-      // when clicked, favorites appear listed on the page, sorted as WYR and random facts
-
-// Once the request type is submitted
-  // Show error nothing returns/api down
-  // If successful 
-    // Update WYR state (default empty string)
-    // OR
-    // Update random fact state (default empty string)
-
-// Render the results
-  // fact/WYR div appears 
-  // heart icon appears
-    // if heart icon tapped
-      // value added to favorite array
-    // if tapped again
-      // value removed from favorite array
