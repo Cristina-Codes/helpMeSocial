@@ -20,8 +20,6 @@
 
 // Styling
 import './App.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 // Modules
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -77,12 +75,14 @@ function App() {
     setClicked(false);
   }, [clicked]);
 
-// Fact can be made a favorite/pushed to Firebase when unfilled heart icon clicked
+
   const nowClicked = (e) => {
     e.preventDefault();
     setClicked(true);
     setDisplayBubble(true);
   }
+  
+  // Fact can be made a favorite/pushed to Firebase when heart icon clicked
   const makeItFave = (currentFact) => {
     const database = getDatabase(app);
     const dbRef = ref(database);
