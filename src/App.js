@@ -54,8 +54,18 @@ function App() {
           faveCount++;
         }
         setNumOfFave(faveCount);
+        stylingFix(faveCount);
       })
   }, [])
+
+  const stylingFix = (count) => {
+    const numOfFave = document.querySelector('.numOfFaves');
+    if(count > 9){
+      numOfFave.classList.add('twoDigits');
+    }else{
+      numOfFave.classList.remove('twoDigits');
+    }
+  }
 
 // Making the API call when 'Bring on the Facts!' is clicked
   useEffect(() => {
