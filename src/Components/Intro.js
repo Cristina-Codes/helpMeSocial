@@ -7,4 +7,4 @@ const Intro = ({nowClicked}) => {
   )
 }
 
-export default Intro
+export default Intro;

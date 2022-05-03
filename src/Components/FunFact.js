@@ -5,15 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const FunFact = ({ theFact, loveIt }) => {
+  // Set state for 'favorite'
   const [ favorite, setFavorite ] = useState(false);
 
+  // Function to show app message randomly
   const showPopUp = () => {
+    // Random chance to determine if app should show message
     const randomChance = (Math.floor(Math.random() * 100));
 
+    // Messages array
     const encouragementArray = ['Not awkward at all!', 'Totally normal to share that', 'Why not say it now?', 'Epic', '💛 Everyone will love that 💛', 'We all clearly need this knowledge', 'Useless? I think not!', 'Now the conversation is heating up 🔥', 'That\'s 🔥🔥🔥', 'Erm...maybe that\'s a bit too odd', 'On second thought...🫣', 'Say it...say it now 😈', 'You\'ll be using that in every conversation 💬', 'Practice on the barista? I think so!', 'You\'ll get so many dates with that one', 'The fun begins with that fact!'];
 
+    // Random index for random message
     const randomIndex = (Math.floor(Math.random() * encouragementArray.length));
     
+    // Determining if message should be shown
     if(randomChance % 3){
       const popUpContainer = document.querySelector('.popUpContainer');
       const popUpDiv = document.createElement('div');
@@ -26,6 +32,7 @@ const FunFact = ({ theFact, loveIt }) => {
     }
   }
   
+  // Resets the trash icon to heart icon for new fact
   useEffect(() => {
     setFavorite(false)
   }, [theFact])
@@ -34,6 +41,7 @@ const FunFact = ({ theFact, loveIt }) => {
     <main>
       <div className="factContainer">
         <p className='theFact'>{theFact}</p>
+        {/* Swaps between icons and their functionality for current fun fact */}
         {
           favorite ? 
           <FontAwesomeIcon icon={faTrashCan} onClick={() => {

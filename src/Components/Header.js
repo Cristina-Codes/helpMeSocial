@@ -13,4 +13,4 @@ const Header = ({ grabTheFaves, showNumOfFave }) => {
   )
 }
 
-export default Header
+export default Header;

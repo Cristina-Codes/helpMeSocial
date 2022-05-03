@@ -42,11 +42,10 @@ function App() {
 
 // Connecting with firebase onload
   useEffect(() => {
-    // hold the database
     const database = getDatabase(app);
-    // refer to the database
     const dbRef = ref(database);
 
+    // Show total favorited facts
     onValue(dbRef, (response) => {
         let faveCount = 0;
         const data = response.val();
@@ -58,16 +57,19 @@ function App() {
       })
   }, [])
 
-  const stylingFix = (count) => {
-    const numOfFave = document.querySelector('.numOfFaves');
-    if(count > 9){
-      numOfFave.classList.add('twoDigits');
-    }else{
-      numOfFave.classList.remove('twoDigits');
-    }
+  // When 'Bring on the Facts!' is clicked
+  const nowClicked = (e) => {
+    e.preventDefault();
+    // True to make useEffect run API call
+    setClicked(true);
+    // Now show the fact display bubble
+    setDisplayBubble(true);
+    // Hide any previous pop up message
+    const popUpContainer = document.querySelector('.popUpContainer');
+    popUpContainer.innerHTML = '';
   }
 
-// Making the API call when 'Bring on the Facts!' is clicked
+// Making the API call, reset clicked to false for next API call
   useEffect(() => {
     if(clicked === true) {
       axios({
@@ -78,19 +80,11 @@ function App() {
         setFact(funFact);
       })
     }
+    // Reset to false to allow another API call on next click
     setClicked(false);
   }, [clicked]);
-
-
-  const nowClicked = (e) => {
-    e.preventDefault();
-    setClicked(true);
-    setDisplayBubble(true);
-    const popUpContainer = document.querySelector('.popUpContainer');
-    popUpContainer.innerHTML = '';
-  }
   
-  // Fact can be made a favorite/pushed to Firebase when heart icon clicked
+// Favorite a fact/push to Firebase when heart icon clicked
   const makeItFave = (currentFact) => {
     const database = getDatabase(app);
     const dbRef = ref(database);
@@ -98,7 +92,7 @@ function App() {
     push(dbRef, currentFact);
   }
 
-// Pulling most updated favorites from Firebase when heart icon in header clicked
+// Pulling most updated favorites from Firebase when 'all favorites' clicked
   const grabAllFaves = () => {
     const database = getDatabase(app);
     const dbRef = ref(database);
@@ -114,13 +108,13 @@ function App() {
     })
   }
 
-// Displaying the favorites pulled from Firebase
-// Could change this to routing in future
+// Displaying all favorites pulled from Firebase
   const displayTheFaves = (array) => {
+    // Create and query needed elements
     const faveDisplay = document.createElement('div');
     const theRoot = document.querySelector('#root');
-  //add x to close favorites list
     const closeIt = document.createElement('div');
+    // X for closing all favorites
     closeIt.innerText = 'X';
     closeIt.classList.add('xIconContainer');
     closeIt.addEventListener('click', () => {
@@ -128,6 +122,7 @@ function App() {
     })
     faveDisplay.appendChild(closeIt);
     
+    // Add delete option for each fact
     array.forEach((obj) => {
       const stringDiv = document.createElement('div');
       const aString = document.createElement('p');
@@ -137,13 +132,13 @@ function App() {
       trashIt.innerHTML = '🗑'; // fontAwesome appears as object object - revisit
       trashIt.classList.add('trashIcon');
 
-      // allow facts to be deleted from favorites/firebase
+      // Event to unfavorite/remove from Firebase
       trashIt.addEventListener('click', () => {
         const database = getDatabase(app);
         const dbRef = ref(database, `/${obj.key}`);
         remove(dbRef);
         faveDisplay.remove();
-        // re-render the list of faves
+        // re-render the list of favorites if one is deleted
         grabAllFaves();
       })
       
@@ -153,9 +148,19 @@ function App() {
       faveDisplay.appendChild(stringDiv);
     })
     
-    // display the list of favorite facts
+    // Display the list of favorites
     faveDisplay.classList.add('faveDisplay');
     theRoot.appendChild(faveDisplay);
+  }
+
+// Fixing display of total favorites when double digits
+  const stylingFix = (count) => {
+    const numOfFave = document.querySelector('.numOfFaves');
+    if(count > 9){
+      numOfFave.classList.add('twoDigits');
+    }else{
+      numOfFave.classList.remove('twoDigits');
+    }
   }
 
   return (
