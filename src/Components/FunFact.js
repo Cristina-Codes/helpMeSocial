@@ -15,7 +15,7 @@ const FunFact = ({ theFact, loveIt }) => {
 
     const randomIndex = (Math.floor(Math.random() * encouragementArray.length));
     
-    if(favoritedCount === 1){
+    if(favoritedCount === 3){
       const popUpDiv = document.createElement('div');
       const popUpText = document.createElement('p');
       const myMain = document.querySelector('main'); 

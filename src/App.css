@@ -72,10 +72,9 @@ main {
 }
 
 .factContainer {
-  /* display: none; */
   background: #FAF0CA;
   max-width: 70%;
-  font-size: 1.7rem;
+  font-size: 2rem;
   padding: 10px;
   padding-bottom: 30px;
   margin: 0 auto;
