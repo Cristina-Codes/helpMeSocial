@@ -8,6 +8,36 @@ const FunFact = ({ theFact, loveIt }) => {
   // Set state for 'favorite'
   const [ favorite, setFavorite ] = useState(false);
 
+  // Make icons functional with enter key
+  const handleKeyDownHeart = (e) => {
+    if(e.keyCode === 13){
+      loveIt(theFact);
+      showPopUp();
+      setFavorite(true);
+    }
+  }
+
+  const handleKeyDownTrash = (e) => {
+    if(e.keyCode === 13){
+      setFavorite(false);
+      //remove from Firebase using key/id
+      const database = getDatabase(app);
+      const dbRef = ref(database);
+      
+      onValue(dbRef, (response) => {
+        const res = response.val();
+        for(let key in res) {
+          if(theFact === res[key]) {
+            const currentKey = key;
+            const database = getDatabase(app);
+            const dbRef = ref(database, `/${currentKey}`);
+            remove(dbRef);
+          }
+        }
+      })
+    }
+  }
+
   // Function to show app message randomly
   const showPopUp = () => {
     // Random chance to determine if app should show message
@@ -62,13 +92,18 @@ const FunFact = ({ theFact, loveIt }) => {
                 }
               }
             })
-          }}/> 
+          }}
+          onKeyDown={handleKeyDownTrash} 
+          tabIndex='0' alt='Icon to remove fact from favorites'/> 
           : 
-          <FontAwesomeIcon icon={faHeart} onClick={() => {
+          <FontAwesomeIcon icon={faHeart} 
+          onClick={() => {
             loveIt(theFact);
             showPopUp();
             setFavorite(true);
-          }}/> 
+          }}
+          onKeyDown={handleKeyDownHeart} 
+          tabIndex='0' alt='Icon to make this a favorite fact'/> 
         }
       </div>
     </main>
