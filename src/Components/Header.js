@@ -11,7 +11,7 @@ const Header = ({ grabTheFaves, showNumOfFave }) => {
 
   return (
     <div className="titleContainer">
-      <h1>FactFinder🔎</h1>
+      <h1>HelpMeSocial💬</h1>
       <div className="iconContainer">
         <FontAwesomeIcon icon={faHeart} onClick={grabTheFaves} onKeyDown={handleKeyDown} tabIndex='0' alt='Icon to open list of all favorite facts'/>
         <p className='numOfFaves'>{showNumOfFave}</p>

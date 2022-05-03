@@ -1,22 +1,3 @@
-// Create state items 
-// - response value ''
-// - favorite or not []
-
-// Once the request type is submitted
-                                        // Show error nothing returns/api down
-  // If successful 
-    // Update random fact state (default empty string)
-
-// Render the results
-  // random fact div appears 
-  // heart icon appears
-    // if heart icon tapped
-      // fact value added to firebase
-    // if tapped again
-      // fact value removed from firebase
-        // display updates with deletion
-  // X icon closes the favorites list display
-
 // Styling
 import './App.css';
 // Modules
@@ -115,7 +96,7 @@ function App() {
     const theRoot = document.querySelector('#root');
     const closeIt = document.createElement('div');
     const deleteAll = document.createElement('div');
-    // X for closing all favorites
+    // X for closing all favorites display
     closeIt.innerText = 'X';
     closeIt.classList.add('xIconContainer');
     closeIt.setAttribute('tabIndex', '0');
