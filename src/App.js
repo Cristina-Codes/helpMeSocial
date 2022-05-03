@@ -114,12 +114,24 @@ function App() {
     const faveDisplay = document.createElement('div');
     const theRoot = document.querySelector('#root');
     const closeIt = document.createElement('div');
+    const deleteAll = document.createElement('div');
     // X for closing all favorites
     closeIt.innerText = 'X';
     closeIt.classList.add('xIconContainer');
     closeIt.addEventListener('click', () => {
       faveDisplay.remove();
     })
+
+    // Delete all facts option
+    deleteAll.innerText = 'Start fresh - delete them all!';
+    deleteAll.classList.add('deleteAll');
+    deleteAll.addEventListener('click', () => {
+      const database = getDatabase(app);
+      const dbRef = ref(database);
+      remove(dbRef);
+      faveDisplay.remove();
+    })
+
     faveDisplay.appendChild(closeIt);
     
     // Add delete option for each fact
@@ -146,6 +158,7 @@ function App() {
       stringDiv.appendChild(aString);
       stringDiv.appendChild(trashIt);
       faveDisplay.appendChild(stringDiv);
+      faveDisplay.appendChild(deleteAll);
     })
     
     // Display the list of favorites

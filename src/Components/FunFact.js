@@ -12,6 +12,7 @@ const FunFact = ({ theFact, loveIt }) => {
   const showPopUp = () => {
     // Random chance to determine if app should show message
     const randomChance = (Math.floor(Math.random() * 100));
+    console.log(randomChance)
 
     // Messages array
     const encouragementArray = ['Not awkward at all!', 'Totally normal to share that', 'Why not say it now?', 'Epic', '💛 Everyone will love that 💛', 'We all clearly need this knowledge', 'Useless? I think not!', 'Now the conversation is heating up 🔥', 'That\'s 🔥🔥🔥', 'Erm...maybe that\'s a bit too odd', 'On second thought...🫣', 'Say it...say it now 😈', 'You\'ll be using that in every conversation 💬', 'Practice on the barista? I think so!', 'You\'ll get so many dates with that one', 'The fun begins with that fact!'];
@@ -20,7 +21,7 @@ const FunFact = ({ theFact, loveIt }) => {
     const randomIndex = (Math.floor(Math.random() * encouragementArray.length));
     
     // Determining if message should be shown
-    if(randomChance % 3){
+    if(!(randomChance % 2)){
       const popUpContainer = document.querySelector('.popUpContainer');
       const popUpDiv = document.createElement('div');
       const popUpText = document.createElement('p'); 
