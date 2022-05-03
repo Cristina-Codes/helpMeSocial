@@ -20,7 +20,7 @@ header {
 
 header svg {
   color: #EE964B;
-  font-size: 3rem;
+  font-size: 4rem;
   transition: all 0.2s ease;
 }
 
@@ -30,9 +30,13 @@ header svg {
 
 .numOfFaves {
   position: absolute;
-  right: 21px;
-  top: 18px;
+  right: 26px;
+  top: 22px;
   color: black;
+}
+
+.twoDigits {
+  right: 23px;
 }
 
 .intro {
@@ -220,6 +224,15 @@ footer a:focus {
 @media (min-width: 1000px) {
   .titleContainer {
     padding: 10px 30px;
+  }
+
+  .numOfFaves {
+    top: 21px;
+    right: 46px;
+  }
+
+  .twoDigits {
+    right: 43px;
   }
 
   .intro {
