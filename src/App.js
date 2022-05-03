@@ -86,6 +86,8 @@ function App() {
     e.preventDefault();
     setClicked(true);
     setDisplayBubble(true);
+    const popUpContainer = document.querySelector('.popUpContainer');
+    popUpContainer.innerHTML = '';
   }
   
   // Fact can be made a favorite/pushed to Firebase when heart icon clicked
@@ -165,6 +167,7 @@ function App() {
       {
         displayBubble ? <FunFact theFact={fact} loveIt={makeItFave} /> : null
       }
+      <div className='popUpContainer'></div>
       <Footer />
     </div>
   );

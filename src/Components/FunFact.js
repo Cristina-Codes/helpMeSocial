@@ -6,26 +6,23 @@ import { faHeart, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const FunFact = ({ theFact, loveIt }) => {
   const [ favorite, setFavorite ] = useState(false);
-  let favoritedCount = 0;
 
   const showPopUp = () => {
-    favoritedCount++;
+    const randomChance = (Math.floor(Math.random() * 100));
 
-    const encouragementArray = ['Not awkward at all!', 'Totally normal to share that', 'Why not say it now?', 'Epic', '💛 Everyone will love that 💛', 'We all clearly need this knowledge', 'Useless? I think not!', 'Now the conversation is heating up 🔥', 'That\'s 🔥🔥🔥', 'Erm...maybe that\'s a bit too odd', 'On second thought...🫣', 'Say it...say it now', 'You\'ll be using that in every conversation 💬', 'Practice on the barista? I think so!', 'You\'ll get so many dates with that one ', 'The fun begins with that fact...'];
+    const encouragementArray = ['Not awkward at all!', 'Totally normal to share that', 'Why not say it now?', 'Epic', '💛 Everyone will love that 💛', 'We all clearly need this knowledge', 'Useless? I think not!', 'Now the conversation is heating up 🔥', 'That\'s 🔥🔥🔥', 'Erm...maybe that\'s a bit too odd', 'On second thought...🫣', 'Say it...say it now', 'You\'ll be using that in every conversation 💬', 'Practice on the barista? I think so!', 'You\'ll get so many dates with that one ', 'The fun begins with that fact!'];
 
     const randomIndex = (Math.floor(Math.random() * encouragementArray.length));
     
-    if(favoritedCount === 3){
+    if(randomChance % 3){
+      const popUpContainer = document.querySelector('.popUpContainer');
       const popUpDiv = document.createElement('div');
-      const popUpText = document.createElement('p');
-      const myMain = document.querySelector('main'); 
+      const popUpText = document.createElement('p'); 
 
       popUpText.innerText = encouragementArray[randomIndex];
       popUpDiv.classList.add('popUpDiv');
       popUpDiv.appendChild(popUpText);
-      myMain.appendChild(popUpDiv);
-
-      favoritedCount = 0;
+      popUpContainer.appendChild(popUpDiv);
     }
   }
   

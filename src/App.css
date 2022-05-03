@@ -166,6 +166,7 @@ main {
   max-width: 325px;
   height: 70px;
   margin: 0 auto;
+  padding: 20px;
   background: #EE964B;
   border-radius: 30px;
   display: flex;
