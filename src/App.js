@@ -118,18 +118,36 @@ function App() {
     // X for closing all favorites
     closeIt.innerText = 'X';
     closeIt.classList.add('xIconContainer');
+    closeIt.setAttribute('tabIndex', '0');
+    closeIt.setAttribute('alt', 'Icon to close the all favorites list');
     closeIt.addEventListener('click', () => {
       faveDisplay.remove();
+    })
+    // Accessible event
+    closeIt.addEventListener('keydown', (e) => {
+      if(e.keyCode === 13){
+        faveDisplay.remove();
+      }
     })
 
     // Delete all facts option
     deleteAll.innerText = 'Start fresh - delete them all!';
     deleteAll.classList.add('deleteAll');
+    deleteAll.setAttribute('tabIndex', '0');
     deleteAll.addEventListener('click', () => {
       const database = getDatabase(app);
       const dbRef = ref(database);
       remove(dbRef);
       faveDisplay.remove();
+    })
+    // Accessible event
+    deleteAll.addEventListener('keydown', (e) => {
+      if(e.keyCode === 13) {
+        const database = getDatabase(app);
+        const dbRef = ref(database);
+        remove(dbRef);
+        faveDisplay.remove();
+      }
     })
 
     faveDisplay.appendChild(closeIt);
@@ -143,6 +161,8 @@ function App() {
       aString.innerText = `${obj.name}`;
       trashIt.innerHTML = '🗑'; // fontAwesome appears as object object - revisit
       trashIt.classList.add('trashIcon');
+      trashIt.setAttribute('tabIndex', '0');
+      trashIt.setAttribute('alt', 'Icon to remove this fact from favorites');
 
       // Event to unfavorite/remove from Firebase
       trashIt.addEventListener('click', () => {
@@ -152,6 +172,17 @@ function App() {
         faveDisplay.remove();
         // re-render the list of favorites if one is deleted
         grabAllFaves();
+      })
+      // Accessible event
+      trashIt.addEventListener('keydown', (e) => {
+        if(e.keyCode === 13){
+          const database = getDatabase(app);
+          const dbRef = ref(database, `/${obj.key}`);
+          remove(dbRef);
+          faveDisplay.remove();
+          // re-render the list of favorites if one is deleted
+          grabAllFaves();
+        }
       })
       
       stringDiv.classList.add('faveDiv');

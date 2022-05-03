@@ -176,12 +176,21 @@ main {
   justify-content: flex-end;
   padding: 20px;
   font-size: 3.5rem;
+  transition: all 0.2s ease;
 }
 
 .trashIcon {
   position: absolute;
   right: 20px;
   bottom: 10px;
+  transition: all 0.2s ease;
+}
+
+.xIconContainer:hover,
+.xIconContainer:focus,
+.trashIcon:hover,
+.trashIcon:focus {
+  transform: scale(1.2);
 }
 
 .popUpContainer {
