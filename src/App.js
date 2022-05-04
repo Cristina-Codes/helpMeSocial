@@ -59,6 +59,8 @@ function App() {
       }).then(response => {
         const funFact = response.data[0];
         setFact(funFact);
+      }).catch((err) => {
+        alert('Yikes! Looks like we\'ve run out of facts...we\'ll head out for more. Check back later!', err);
       })
     }
     // Reset to false to allow another API call on next click
