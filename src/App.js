@@ -3,7 +3,7 @@ import './App.css';
 // Modules
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue, push, remove, get } from 'firebase/database';
+import { getDatabase, ref, onValue, push, update, remove, get } from 'firebase/database';
 // Config
 import app from './firebase';
 // Components
@@ -17,6 +17,7 @@ function App() {
 // set States
   const [ clicked, setClicked ] = useState(false);
   const [ displayBubble, setDisplayBubble ] = useState(false);
+  const [ factResponse, setFactResponse ] = useState([]);
   const [ fact, setFact ] = useState('');
   const [ numOfFave, setNumOfFave ] = useState();
 
@@ -24,10 +25,10 @@ function App() {
 // Connecting with firebase onload
   useEffect(() => {
     const database = getDatabase(app);
-    const dbRef = ref(database);
+    const faveRef = ref(database, '/Favorites');
 
     // Show total favorited facts
-    onValue(dbRef, (response) => {
+    onValue(faveRef, (response) => {
         let faveCount = 0;
         const data = response.val();
         for(let key in data) {
@@ -52,35 +53,36 @@ function App() {
 
 // Making the API call, reset clicked to false for next API call
   useEffect(() => {
-    if(clicked === true) {
-      axios({
-        url: 'https://api.aakhilv.me/fun/facts',
-        dataResponse: 'json'
-      }).then(response => {
-        const funFact = response.data[0];
-        setFact(funFact);
-      }).catch((err) => {
-        alert('Yikes! Looks like we\'ve run out of facts...we\'ll head out for more. Check back later!', err);
-      })
-    }
+    const database = getDatabase(app);
+    const factRef = ref(database, '/Facts'); //coming in before clicked
+    get(factRef).then((snapshot) => {
+      setFactResponse(snapshot.val());
+      displayAFact();
+    })
     // Reset to false to allow another API call on next click
     setClicked(false);
   }, [clicked]);
+
+  const displayAFact = () => {
+    const randomIndex = (Math.floor(Math.random() * factResponse.length));
+    setFact(factResponse[randomIndex]);
+  }
+
   
 // Favorite a fact/push to Firebase when heart icon clicked
   const makeItFave = (currentFact) => {
     const database = getDatabase(app);
-    const dbRef = ref(database);
+    const faveRef = ref(database, '/Favorites');
 
-    push(dbRef, currentFact);
+    push(faveRef, currentFact);
   }
 
 // Pulling most updated favorites from Firebase when 'all favorites' clicked
   const grabAllFaves = () => {
     const database = getDatabase(app);
-    const dbRef = ref(database);
+    const faveRef = ref(database, '/Favorites');
 
-    get(dbRef).then((snapshot) => {
+    get(faveRef).then((snapshot) => {
       const allFaves = snapshot.val();
       const allFavesStrings = [];
       for(let key in allFaves){

@@ -22,16 +22,16 @@ const FunFact = ({ theFact, loveIt }) => {
     setFavorite(false);
     //remove from Firebase using key/id
     const database = getDatabase(app);
-    const dbRef = ref(database);
+    const faveRef = ref(database, '/Favorites')
     
-    onValue(dbRef, (response) => {
+    onValue(faveRef, (response) => {
       const res = response.val();
       for(let key in res) {
         if(theFact === res[key]) {
           const currentKey = key;
           const database = getDatabase(app);
-          const dbRef = ref(database, `/${currentKey}`);
-          remove(dbRef);
+          const indFaveRef = ref(database, `/Favorites/${currentKey}`);
+          remove(indFaveRef);
         }
       }
     })
@@ -46,21 +46,22 @@ const FunFact = ({ theFact, loveIt }) => {
     }
   }
 
+  //Need to update
   const handleKeyDownTrash = (e) => {
     if(e.keyCode === 13){
       setFavorite(false);
       //remove from Firebase using key/id
       const database = getDatabase(app);
-      const dbRef = ref(database);
+      const faveRef = ref(database, '/Favorites')
       
-      onValue(dbRef, (response) => {
+      onValue(faveRef, (response) => {
         const res = response.val();
         for(let key in res) {
           if(theFact === res[key]) {
             const currentKey = key;
             const database = getDatabase(app);
-            const dbRef = ref(database, `/${currentKey}`);
-            remove(dbRef);
+            const indFaveRef = ref(database, `/Favorites/${currentKey}`);
+            remove(indFaveRef);
           }
         }
       })
