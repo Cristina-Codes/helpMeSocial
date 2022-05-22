@@ -14,7 +14,6 @@ import Footer from './Components/Footer';
 
 function App() {
 // set States
-  const [ clicked, setClicked ] = useState(false);
   const [ displayBubble, setDisplayBubble ] = useState(false);
   const [ factResponse, setFactResponse ] = useState([]);
   const [ fact, setFact ] = useState('');
@@ -25,6 +24,12 @@ function App() {
   useEffect(() => {
     const database = getDatabase(app);
     const faveRef = ref(database, '/Favorites');
+    const factRef = ref(database, '/Facts');
+    
+    // Get all the facts, set in state
+    get(factRef).then((snapshot) => {
+      setFactResponse(snapshot.val());
+    })
 
     // Show total favorited facts
     onValue(faveRef, (response) => {
@@ -38,32 +43,21 @@ function App() {
       })
   }, [])
 
-  // When 'Bring on the Facts!' is clicked
+
+// When 'Bring on the Facts!' is clicked
   const nowClicked = (e) => {
     e.preventDefault();
-    // True to make useEffect run API call
-    setClicked(true);
     // Now show the fact display bubble
     setDisplayBubble(true);
     // Hide any previous pop up message
     const popUpContainer = document.querySelector('.popUpContainer');
     popUpContainer.innerHTML = '';
+
+    displayAFact();
   }
 
-// Making the API call, reset clicked to false for next API call
-  useEffect(() => {
-    const database = getDatabase(app);
-    const factRef = ref(database, '/Facts');
-    get(factRef).then((snapshot) => {
-      setFactResponse(snapshot.val());
-      displayAFact();
-    })
-    // Reset to false to allow another API call on next click
-    setClicked(false);
-  }, [clicked]);
 
-
-  //Choosing a random fact by index from the response
+// Choosing a random fact by index from the response
   const displayAFact = () => {
     const randomIndex = (Math.floor(Math.random() * factResponse.length));
     setFact(factResponse[randomIndex]);
