@@ -1,9 +1,8 @@
 // Styling
 import './App.css';
 // Modules
-import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue, push, update, remove, get } from 'firebase/database';
+import { getDatabase, ref, onValue, push, remove, get, set } from 'firebase/database';
 // Config
 import app from './firebase';
 // Components
@@ -54,7 +53,7 @@ function App() {
 // Making the API call, reset clicked to false for next API call
   useEffect(() => {
     const database = getDatabase(app);
-    const factRef = ref(database, '/Facts'); //coming in before clicked
+    const factRef = ref(database, '/Facts');
     get(factRef).then((snapshot) => {
       setFactResponse(snapshot.val());
       displayAFact();
@@ -63,17 +62,18 @@ function App() {
     setClicked(false);
   }, [clicked]);
 
+
+  //Choosing a random fact by index from the response
   const displayAFact = () => {
     const randomIndex = (Math.floor(Math.random() * factResponse.length));
     setFact(factResponse[randomIndex]);
   }
 
   
-// Favorite a fact/push to Firebase when heart icon clicked
+// 'Favorite' a fact/push to Firebase when heart icon clicked
   const makeItFave = (currentFact) => {
     const database = getDatabase(app);
     const faveRef = ref(database, '/Favorites');
-
     push(faveRef, currentFact);
   }
 
@@ -93,6 +93,7 @@ function App() {
     })
   }
 
+
 // Displaying all favorites pulled from Firebase
   const displayTheFaves = (array) => {
     // Create and query needed elements
@@ -105,6 +106,7 @@ function App() {
     closeIt.classList.add('xIconContainer');
     closeIt.setAttribute('tabIndex', '0');
     closeIt.setAttribute('alt', 'Icon to close the all favorites list');
+    // Add closing event
     closeIt.addEventListener('click', () => {
       faveDisplay.remove();
     })
@@ -121,16 +123,16 @@ function App() {
     deleteAll.setAttribute('tabIndex', '0');
     deleteAll.addEventListener('click', () => {
       const database = getDatabase(app);
-      const dbRef = ref(database);
-      remove(dbRef);
+      const faveRef = ref(database, '/Favorites');
+      set(faveRef, '');
       faveDisplay.remove();
     })
     // Accessible event
     deleteAll.addEventListener('keydown', (e) => {
       if(e.keyCode === 13) {
         const database = getDatabase(app);
-        const dbRef = ref(database);
-        remove(dbRef);
+        const faveRef = ref(database, '/Favorites');
+        set(faveRef, '');
         faveDisplay.remove();
       }
     })
@@ -152,8 +154,8 @@ function App() {
       // Event to unfavorite/remove from Firebase
       trashIt.addEventListener('click', () => {
         const database = getDatabase(app);
-        const dbRef = ref(database, `/${obj.key}`);
-        remove(dbRef);
+        const noLongerFaveRef = ref(database, `/Favorites/${obj.key}`);
+        remove(noLongerFaveRef);
         faveDisplay.remove();
         // re-render the list of favorites if one is deleted
         grabAllFaves();
@@ -162,8 +164,8 @@ function App() {
       trashIt.addEventListener('keydown', (e) => {
         if(e.keyCode === 13){
           const database = getDatabase(app);
-          const dbRef = ref(database, `/${obj.key}`);
-          remove(dbRef);
+          const noLongerFaveRef = ref(database, `/Favorites/${obj.key}`);
+          remove(noLongerFaveRef);
           faveDisplay.remove();
           // re-render the list of favorites if one is deleted
           grabAllFaves();

@@ -37,7 +37,7 @@ const FunFact = ({ theFact, loveIt }) => {
     })
   }
 
-  // Make icons functional with enter key
+  // Accessible events
   const handleKeyDownHeart = (e) => {
     if(e.keyCode === 13){
       loveIt(theFact);
@@ -46,7 +46,6 @@ const FunFact = ({ theFact, loveIt }) => {
     }
   }
 
-  //Need to update
   const handleKeyDownTrash = (e) => {
     if(e.keyCode === 13){
       setFavorite(false);
@@ -106,6 +105,7 @@ const FunFact = ({ theFact, loveIt }) => {
       <div className="factContainer">
         <p>{theFact}</p>
         {/* Swaps between icons and their functionality for current fun fact */}
+        {/* Icon swaps, but functionality runs once - revisit this */}
         {
           favorite ? 
           <FontAwesomeIcon 
