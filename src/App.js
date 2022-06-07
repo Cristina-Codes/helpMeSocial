@@ -2,7 +2,8 @@
 import './App.css';
 // Modules
 import { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue, push, remove, get, set } from 'firebase/database';
+import { getDatabase, ref, onValue, push, get } from 'firebase/database';
+import { Routes, Route } from 'react-router-dom';
 // Config
 import app from './firebase';
 // Components
@@ -10,9 +11,9 @@ import Header from './Components/Header';
 import Intro from './Components/Intro';
 import FunFact from './Components/FunFact';
 import Footer from './Components/Footer';
+import AllFavesList from './Components/AllFavesList';
 
-
-function App() {
+const Home = () => {
 // set States
   const [ displayBubble, setDisplayBubble ] = useState(false);
   const [ factResponse, setFactResponse ] = useState([]);
@@ -71,112 +72,125 @@ function App() {
     push(faveRef, currentFact);
   }
 
-// Pulling most updated favorites from Firebase when 'all favorites' clicked
-  const grabAllFaves = () => {
-    const database = getDatabase(app);
-    const faveRef = ref(database, '/Favorites');
+// Pulling most updated favorites from Firebase 
+  const countAllFaves = () => {
+  //   const database = getDatabase(app);
+  //   const faveRef = ref(database, '/Favorites');
 
-    get(faveRef).then((snapshot) => {
-      const allFaves = snapshot.val();
-      const allFavesStrings = [];
-      for(let key in allFaves){
-        allFavesStrings.push({key: key, name: allFaves[key]});
-      }
-
-      displayTheFaves(allFavesStrings);
-    })
+  //   get(faveRef).then((snapshot) => {
+  //     const allFaves = snapshot.val();
+  //     const everyFavesStrings = [];
+  //     for(let key in allFaves){
+  //       everyFavesStrings.push({key: key, name: allFaves[key]});
+  //     }
+  //   })
   }
 
+  // Pulling most updated favorites from Firebase when 'all favorites' clicked
+  // useEffect(() => {
+    // const database = getDatabase(app);
+    // const faveRef = ref(database, '/Favorites');
+    // const everyFavesStrings = [];
+
+    // get(faveRef).then((snapshot) => {
+    //   const allFaves = snapshot.val();
+    //   for(let key in allFaves){
+    //     everyFavesStrings.push({key: key, name: allFaves[key]});
+    //   }
+
+  //     setEveryFavorite(everyFavesStrings);      
+  //   })
+  // }, []);
 
 // Displaying all favorites pulled from Firebase
-  const displayTheFaves = (array) => {
-    // Create and query needed elements
-    const faveDisplay = document.createElement('div');
-    const theRoot = document.querySelector('#root');
-    const closeIt = document.createElement('div');
-    const deleteAll = document.createElement('div');
-    // X for closing all favorites display
-    closeIt.innerText = 'X';
-    closeIt.classList.add('xIconContainer');
-    closeIt.setAttribute('tabIndex', '0');
-    closeIt.setAttribute('alt', 'Icon to close the all favorites list');
-    // Add closing event
-    closeIt.addEventListener('click', () => {
-      faveDisplay.remove();
-    })
-    // Accessible event
-    closeIt.addEventListener('keydown', (e) => {
-      if(e.keyCode === 13){
-        faveDisplay.remove();
-      }
-    })
+  // const displayTheFaves = (array) => {
+  //   // Create and query needed elements
+  //   const faveDisplay = document.createElement('div');
+  //   const theRoot = document.querySelector('#root');
+  //   const closeIt = document.createElement('div');
+  //   const deleteAll = document.createElement('div');
+  //   // X for closing all favorites display
+  //   closeIt.innerText = 'X';
+  //   closeIt.classList.add('xIconContainer');
+  //   closeIt.setAttribute('tabIndex', '0');
+  //   closeIt.setAttribute('alt', 'Icon to close the all favorites list');
+  //   // Add closing event
+  //   closeIt.addEventListener('click', () => {
+  //     faveDisplay.remove();
+  //   })
+  //   // Accessible event
+  //   closeIt.addEventListener('keydown', (e) => {
+  //     if(e.keyCode === 13){
+  //       faveDisplay.remove();
+  //     }
+  //   })
 
-    // Delete all facts option
-    deleteAll.innerText = 'Start fresh - delete them all!';
-    deleteAll.classList.add('deleteAll');
-    deleteAll.setAttribute('tabIndex', '0');
-    deleteAll.addEventListener('click', () => {
-      const database = getDatabase(app);
-      const faveRef = ref(database, '/Favorites');
-      set(faveRef, '');
-      faveDisplay.remove();
-    })
-    // Accessible event
-    deleteAll.addEventListener('keydown', (e) => {
-      if(e.keyCode === 13) {
-        const database = getDatabase(app);
-        const faveRef = ref(database, '/Favorites');
-        set(faveRef, '');
-        faveDisplay.remove();
-      }
-    })
+  //   // Delete all facts option
+  //   deleteAll.innerText = 'Start fresh - delete them all!';
+  //   deleteAll.classList.add('deleteAll');
+  //   deleteAll.setAttribute('tabIndex', '0');
+  //   deleteAll.addEventListener('click', () => {
+  //     const database = getDatabase(app);
+  //     const faveRef = ref(database, '/Favorites');
+  //     set(faveRef, '');
+  //     faveDisplay.remove();
+  //   })
+  //   // Accessible event
+  //   deleteAll.addEventListener('keydown', (e) => {
+  //     if(e.keyCode === 13) {
+  //       const database = getDatabase(app);
+  //       const faveRef = ref(database, '/Favorites');
+  //       set(faveRef, '');
+  //       faveDisplay.remove();
+  //     }
+  //   })
 
-    faveDisplay.appendChild(closeIt);
+  //   faveDisplay.appendChild(closeIt);
     
-    // Add delete option for each fact
-    array.forEach((obj) => {
-      const stringDiv = document.createElement('div');
-      const aString = document.createElement('p');
-      const trashIt = document.createElement('div');
+  //   // Add delete option for each fact
+  //   array.forEach((obj) => {
+  //     const stringDiv = document.createElement('div');
+  //     const aString = document.createElement('p');
+  //     const trashIt = document.createElement('div');
 
-      aString.innerText = `${obj.name}`;
-      trashIt.innerHTML = '🗑'; // fontAwesome appears as object object - revisit
-      trashIt.classList.add('trashIcon');
-      trashIt.setAttribute('tabIndex', '0');
-      trashIt.setAttribute('alt', 'Icon to remove this fact from favorites');
+  //     aString.innerText = `${obj.name}`;
+  //     trashIt.innerHTML = '🗑'; // fontAwesome appears as object object - revisit
+  //     trashIt.classList.add('trashIcon');
+  //     trashIt.setAttribute('tabIndex', '0');
+  //     trashIt.setAttribute('alt', 'Icon to remove this fact from favorites');
 
-      // Event to unfavorite/remove from Firebase
-      trashIt.addEventListener('click', () => {
-        const database = getDatabase(app);
-        const noLongerFaveRef = ref(database, `/Favorites/${obj.key}`);
-        remove(noLongerFaveRef);
-        faveDisplay.remove();
-        // re-render the list of favorites if one is deleted
-        grabAllFaves();
-      })
-      // Accessible event
-      trashIt.addEventListener('keydown', (e) => {
-        if(e.keyCode === 13){
-          const database = getDatabase(app);
-          const noLongerFaveRef = ref(database, `/Favorites/${obj.key}`);
-          remove(noLongerFaveRef);
-          faveDisplay.remove();
-          // re-render the list of favorites if one is deleted
-          grabAllFaves();
-        }
-      })
+  //     // Event to unfavorite/remove from Firebase
+  //     trashIt.addEventListener('click', () => {
+  //       const database = getDatabase(app);
+  //       const noLongerFaveRef = ref(database, `/Favorites/${obj.key}`);
+  //       remove(noLongerFaveRef);
+  //       faveDisplay.remove();
+  //       // re-render the list of favorites if one is deleted
+  //       grabAllFaves();
+  //     })
+  //     // Accessible event
+  //     trashIt.addEventListener('keydown', (e) => {
+  //       if(e.keyCode === 13){
+  //         const database = getDatabase(app);
+  //         const noLongerFaveRef = ref(database, `/Favorites/${obj.key}`);
+  //         remove(noLongerFaveRef);
+  //         faveDisplay.remove();
+  //         // re-render the list of favorites if one is deleted
+  //         grabAllFaves();
+  //       }
+  //     })
       
-      stringDiv.classList.add('faveDiv');
-      stringDiv.appendChild(aString);
-      stringDiv.appendChild(trashIt);
-      faveDisplay.appendChild(stringDiv);
-      faveDisplay.appendChild(deleteAll);
-    })
+  //     stringDiv.classList.add('faveDiv');
+  //     stringDiv.appendChild(aString);
+  //     stringDiv.appendChild(trashIt);
+  //     faveDisplay.appendChild(stringDiv);
+  //     faveDisplay.appendChild(deleteAll);
+  //   })
     
-    // Display the list of favorites
-    faveDisplay.classList.add('faveDisplay');
-    theRoot.appendChild(faveDisplay);
-  }
+  //   // Display the list of favorites
+  //   faveDisplay.classList.add('faveDisplay');
+  //   theRoot.appendChild(faveDisplay);
+  // }
 
 // Fixing display of total favorites when double digits
   const stylingFix = (count) => {
@@ -189,9 +203,9 @@ function App() {
   }
 
   return (
-    <div className='App'>
+    <>
       <header>
-        <Header grabTheFaves={grabAllFaves} showNumOfFave={numOfFave}/>
+        <Header countAllFaves={countAllFaves} showNumOfFave={numOfFave}/>
         <Intro nowClicked={nowClicked}/>
       </header>
       {
@@ -199,8 +213,20 @@ function App() {
       }
       <div className='popUpContainer'></div>
       <Footer />
-    </div>
+
+    </>
   );
+}
+
+const App = () => {
+  return (
+    <div className='App'>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/favorites" element={<AllFavesList />} />
+      </Routes>
+    </div>
+  )
 }
 
 export default App;

@@ -135,12 +135,12 @@ main {
 }
 
 .faveDiv {
-  background: #F4D35E;
+  background: #FAF0CA;
   text-align: center;
   width: 80%;
   padding: 20px;
   padding-bottom: 40px;
-  margin: 10px;
+  margin: 10px auto;
   border-radius: 20px;
   border: 2px solid black;
   font-size: 2rem;
