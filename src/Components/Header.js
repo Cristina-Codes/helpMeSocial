@@ -4,7 +4,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // Modules
 import { Link } from 'react-router-dom';
 
-const Header = ({ countAllFaves, showNumOfFave }) => {
+const Header = ({ numOfFave }) => {
   // Make icon functional with enter key
   const handleKeyDown = (e) => {
     if(e.keyCode === 13){
@@ -25,7 +25,7 @@ const Header = ({ countAllFaves, showNumOfFave }) => {
             alt='Icon to open list of all favorite facts'
           />
         </Link>
-        <p className='numOfFaves'>{showNumOfFave}</p>
+        <p className='numOfFaves'>{numOfFave}</p>
       </div>
     </div>
   )
