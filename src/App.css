@@ -116,6 +116,23 @@ main {
 }
 
 /* Favorite List Display */
+.faveHeader {
+  width: 100%;
+  position: relative;
+}
+
+.faveHeader h3 {
+  font-size: 3rem;
+  width: 100%;
+}
+
+.faveHeader a {
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 .faveDisplay {
   background: #EE964B;
   min-height: 100vh;
@@ -128,10 +145,6 @@ main {
   top: 0;
   left: 0;
   right: 0;
-}
-
-.hideFaveDisplay {
-  display: none;
 }
 
 .faveDiv {
@@ -147,35 +160,6 @@ main {
   position: relative;
 }
 
-.deleteAll {
-  width: 300px;
-  height: 50px;
-  margin-bottom: 50px;
-  margin-top: 30px;
-  background-color: #FAF0CA;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 2rem;
-}
-
-.deleteAll:hover,
-.deleteAll:focus {
-  border: 2px solid black;
-  background: rgb(255, 255, 0);
-}
-
-.xIconContainer {
-  margin-left: 90%;
-  display: flex;
-  justify-content: flex-end;
-  padding: 20px;
-  font-size: 3.5rem;
-  transition: all 0.2s ease;
-}
-
 .trashIcon {
   position: absolute;
   right: 20px;
@@ -183,13 +167,34 @@ main {
   transition: all 0.2s ease;
 }
 
-.xIconContainer:hover,
-.xIconContainer:focus,
 .trashIcon:hover,
 .trashIcon:focus {
   transform: scale(1.2);
 }
 
+.deleteAll p {
+  font-size: 2rem;
+  padding-top: 10px;
+}
+
+.deleteAll button {
+  width: 300px;
+  height: 50px;
+  margin-bottom: 50px;
+  margin-top: 10px;
+  background-color: #FAF0CA;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.deleteAll button:hover,
+.deleteAll button:focus {
+  border: 2px solid black;
+  background: rgb(255, 255, 0);
+}
+
+/* Encouragement Pop Ups */
 .popUpContainer {
   padding: 10px;
 }

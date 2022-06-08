@@ -22,7 +22,7 @@ const FunFact = ({ theFact, loveIt }) => {
     setFavorite(false);
     //remove from Firebase using key/id
     const database = getDatabase(app);
-    const faveRef = ref(database, '/Favorites')
+    const faveRef = ref(database, '/Favorites');
     
     onValue(faveRef, (response) => {
       const res = response.val();
@@ -40,30 +40,14 @@ const FunFact = ({ theFact, loveIt }) => {
   // Accessible events
   const handleKeyDownHeart = (e) => {
     if(e.keyCode === 13){
-      loveIt(theFact);
-      toShowOrNotToShow();
-      setFavorite(true);
+      handleHeartClick();
     }
   }
 
   const handleKeyDownTrash = (e) => {
     if(e.keyCode === 13){
       setFavorite(false);
-      //remove from Firebase using key/id
-      const database = getDatabase(app);
-      const faveRef = ref(database, '/Favorites')
-      
-      onValue(faveRef, (response) => {
-        const res = response.val();
-        for(let key in res) {
-          if(theFact === res[key]) {
-            const currentKey = key;
-            const database = getDatabase(app);
-            const indFaveRef = ref(database, `/Favorites/${currentKey}`);
-            remove(indFaveRef);
-          }
-        }
-      })
+      handleTrashClick();
     }
   }
 

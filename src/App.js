@@ -2,7 +2,7 @@
 import './App.css';
 // Modules
 import { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue, push, get } from 'firebase/database';
+import { getDatabase, ref, onValue } from 'firebase/database';
 import { Routes, Route } from 'react-router-dom';
 // Config
 import app from './firebase';
@@ -11,7 +11,7 @@ import AllFavesList from './Components/AllFavesList';
 import Home from './Components/Home';
 
 const App = () => {
-  const [ everyFavorite, setEveryFavorite] = useState();
+  const [ everyFavorite, setEveryFavorite ] = useState();
 
   // Connecting with firebase onload
   useEffect(() => {
