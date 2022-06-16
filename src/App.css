@@ -194,6 +194,11 @@ main {
   background: rgb(255, 255, 0);
 }
 
+.loading {
+  font-size: 3rem;
+  margin-top: 20%;
+}
+
 /* Encouragement Pop Ups */
 .popUpContainer {
   padding: 10px;

@@ -30,42 +30,55 @@ const AllFavesList = ({everyFavorite}) => {
     }
   }
 
-  return (
-    <div className="faveDisplay">
-      <header className="faveHeader">
-        <h3>Favorite Facts</h3>
-        <Link to="/">
-          <FontAwesomeIcon 
-            icon={faX} 
-          />
-        </Link>
-      </header>
-      {
-        everyFavorite.map((favorite) => {
-          return(
-            <div className='faveDiv' id={favorite.key} key={favorite.key}>
-              <p>{favorite.string}</p>
-              <FontAwesomeIcon 
-                icon={faTrashCan}
-                onClick={handleTrashClick}
-                onKeyDown={handleKeyDownTrash}
-                className="trashIcon"
-              />
-            </div>
-          )
-        })
-      }
-      <div className="deleteAll">
-        <p>Want to start fresh? Delete all saved facts below.</p>
-        <button>
-          Delete them all!
-        </button>
-      </div>
+  const deleteAllFaves = () => {
+    const database = getDatabase(app);
+    const allFaveRef = ref(database, `/Favorites`);
+    remove(allFaveRef);
+  }
 
-      <Routes>
-        <Route path="/" />
-      </Routes>
-    </div>
+  return (
+    <>
+    {
+      everyFavorite !== undefined ? (
+      <div className="faveDisplay">
+        <header className="faveHeader">
+          <h3>Favorite Facts</h3>
+          <Link to="/">
+            <FontAwesomeIcon 
+              icon={faX} 
+            />
+          </Link>
+        </header>
+        {
+          everyFavorite.map((favorite) => {
+            return(
+              <div className='faveDiv' id={favorite.key} key={favorite.key}>
+                <p>{favorite.string}</p>
+                <FontAwesomeIcon 
+                  icon={faTrashCan}
+                  onClick={handleTrashClick}
+                  onKeyDown={handleKeyDownTrash}
+                  className="trashIcon"
+                />
+              </div>
+            )
+          })
+        }
+        <div className="deleteAll">
+          <p>Want to start fresh? Delete all saved facts below.</p>
+          <button onClick={deleteAllFaves}>
+            Delete them all!
+          </button>
+        </div>
+  
+        <Routes>
+          <Route path="/" />
+        </Routes>
+      </div>)
+      :
+      (<p className='loading'>Loading...</p>)
+    }
+    </>
   )
 }
 
