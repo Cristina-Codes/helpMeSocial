@@ -10,6 +10,12 @@ import app from './firebase';
 import AllFavesList from './Components/AllFavesList';
 import Home from './Components/Home';
 
+//next goals:
+  //get the 'favorite' and 'delete' functionalities to run more than once on the home page
+  //prevent facts from being called up twice until app is refreshed or all facts have been called up
+  //prevent the same fact from being favorited twice
+  //look through netlify's "page not found" docs since the refresh of /favorites is behaving differently than on localhost
+
 const App = () => {
   const [ everyFavorite, setEveryFavorite ] = useState();
 
