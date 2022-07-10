@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+path {
+  pointer-events: none;
+}
+
 /* Header */
 header {
   background: #0D3B66;
@@ -59,6 +63,7 @@ header svg {
 }
 
 .intro button:hover,
+.intro button:focus,
 header svg:hover,
 header svg:focus {
   transform: scale(1.1);
